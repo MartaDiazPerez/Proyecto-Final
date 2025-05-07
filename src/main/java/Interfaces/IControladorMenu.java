@@ -1,3 +1,5 @@
+package Interfaces;
+
 public interface IControladorMenu {
     void jugarNuevaPartida();
     void cargarPartida();

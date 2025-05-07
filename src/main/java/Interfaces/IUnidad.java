@@ -1,3 +1,5 @@
+package Interfaces;
+
 public interface IUnidad {
     int getHP();
     int getAtaque();

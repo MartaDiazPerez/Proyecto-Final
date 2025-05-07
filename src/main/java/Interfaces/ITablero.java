@@ -1,3 +1,5 @@
+package Interfaces;
+
 public interface ITablero {
     void inicializarTablero(int filas, int columnas);
     ICasilla obtenerCasilla(int fila, int columna);

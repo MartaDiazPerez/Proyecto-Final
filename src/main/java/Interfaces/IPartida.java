@@ -1,3 +1,5 @@
+package Interfaces;
+
 public interface IPartida {
     void iniciar();
     void terminar();

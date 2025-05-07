@@ -1,3 +1,5 @@
+package Interfaces;
+
 public interface ICasilla {
     int getModificadorDefensa();
     int getCosteMovimiento();

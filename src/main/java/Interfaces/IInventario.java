@@ -1,3 +1,5 @@
+package Interfaces;
+
 public interface IInventario {
     void agregarItem(IItem item);
     void quitarItem(IItem item);

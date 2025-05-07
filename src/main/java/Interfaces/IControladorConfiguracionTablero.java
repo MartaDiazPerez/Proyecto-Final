@@ -1,3 +1,5 @@
+package Interfaces;
+
 public interface IControladorConfiguracionTablero {
     void crearTableroAleatorio(int filas, int columnas);
     void crearTableroManual(int filas, int columnas);

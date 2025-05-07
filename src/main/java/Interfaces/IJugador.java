@@ -1,3 +1,5 @@
+package Interfaces;
+
 public interface IJugador {
     String getNombre();
     List<IUnidad> getUnidades();

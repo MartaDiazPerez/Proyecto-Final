@@ -1,3 +1,5 @@
+package Interfaces;
+
 public interface IVistaJuego {
     void mostrarTablero(ITablero tablero);
     void actualizarUnidad(IUnidad unidad);
