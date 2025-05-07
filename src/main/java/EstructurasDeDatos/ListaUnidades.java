@@ -1,4 +1,5 @@
 package EstructurasDeDatos;
+import Interfaces.IUnidad;
 
 public class ListaUnidades {
     // Lista de unidades por jugador
