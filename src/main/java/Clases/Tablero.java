@@ -1,4 +1,10 @@
-public class Tablero implements ITablero{
+package Clases;
+
+import Interfaces.ICasilla;
+import Interfaces.ITablero;
+import Interfaces.IUnidad;
+
+public class Tablero implements ITablero {
     private ICasilla[][] casillas;
     private int filas, columnas;
 
