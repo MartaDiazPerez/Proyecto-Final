@@ -14,7 +14,7 @@ public class Tablero implements ITablero {
         casillas = new ICasilla[filas][columnas];
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                casillas[i][j] = new Casilla(0,1); //Por defecto
+                casillas = new Casilla(0,1); //Por defecto
             }
         }
     }

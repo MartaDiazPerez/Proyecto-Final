@@ -1,10 +1,20 @@
 package Interfaces;
 
 public interface ICasilla {
-    int getModificadorDefensa();
-    int getCosteMovimiento();
     boolean estaOcupada();
-    void ocupar(IUnidad unidad);
-    void liberar();
-    IUnidad getUnidad();
+    void ocupar();
+    void desocupar();
+
+    int getCosteMovimiento();
+    void setCosteMovimiento(int costeMovimiento);
+
+    int getDefensaExtra();
+    void setDefensaExtra(int defensaExtra);
+
+    int getAtaqueExtra();
+    void setAtaqueExtra(int ataqueExtra);
+
+    int getX();
+    int getY();
+    void setPosicion(int x, int y);
 }
