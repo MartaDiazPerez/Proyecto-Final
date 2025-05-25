@@ -45,8 +45,8 @@ public class Unidad {
         return y;
     }
     public void setPosicion(int x, int y) {
-        this.x = posicion.x;
-        this.y = posicion.y;
+        this.x = x;
+        this.y = y;
     }
     public Posicion getPosicion() {
         return new Posicion(this.x, this.y);
