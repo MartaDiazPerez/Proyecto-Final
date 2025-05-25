@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="pantallas.PantallaResultados" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="426.0" layoutY="327.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="148.0" text="SIGUIENTE" />
+      <TextArea layoutX="122.0" layoutY="31.0" prefHeight="271.0" prefWidth="395.0" text="RESULTADOS:" />
+   </children>
+</Pane>
