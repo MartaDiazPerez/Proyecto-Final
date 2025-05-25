@@ -2,13 +2,15 @@ package pantallas;
 
 import Clases.Casilla;
 import app.PantallaManager;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import modelo.TableroPersonalizado;
 
 import java.io.FileWriter;
@@ -16,131 +18,149 @@ import java.io.IOException;
 
 public class PantallaMiPropioTablero {
 
-    private int filas = 5;   // puedes pasar valores reales luego
-    private int columnas = 5;
+    private final int filas;
+    private final int columnas;
+
     private Casilla[][] datosCasillas;
+    private Button[][] botonesCasilla;
+
     private Casilla casillaSeleccionada;
 
-    private Button[][] casillas;
+    // Sliders e info visual
+    private Slider sliderAtaque;
+    private Slider sliderDefensa;
+    private Slider sliderMovimiento;
 
-    casillas = new Button[filas][columnas];
-    datosCasillas = new Casilla[filas][columnas];
+    private Label lblAtaque;
+    private Label lblDefensa;
+    private Label lblMovimiento;
 
-    for (int fila = 0; fila < filas; fila++) {
-        for (int col = 0; col < columnas; col++) {
-            Button casilla = new Button();
-            casilla.setPrefSize(50, 50);
+    public PantallaMiPropioTablero(int filas, int columnas) {
+        this.filas = filas;
+        this.columnas = columnas;
+        datosCasillas = new Casilla[filas][columnas];
+        botonesCasilla = new Button[filas][columnas];
 
-            datosCasillas[fila][col] = new Casilla();
-
-            int finalFila = fila;
-            int finalCol = col;
-            casilla.setOnAction(e -> abrirEditorDeCasilla(finalFila, finalCol));
-
-            casillas[fila][col] = casilla;
-            tablero.add(casilla, col, fila);
+        // Inicializar todas las casillas con valores por defecto
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                datosCasillas[i][j] = new Casilla(); // Usa el constructor por defecto
+            }
         }
     }
 
     public Scene getScene() {
         BorderPane root = new BorderPane();
 
+        // Construir tablero visual (centro)
         GridPane tablero = new GridPane();
-        tablero.setHgap(5);
-        tablero.setVgap(5);
+        tablero.setHgap(4);
+        tablero.setVgap(4);
         tablero.setAlignment(Pos.CENTER);
         tablero.setPadding(new Insets(20));
 
-        casillas = new Button[filas][columnas];
-
         for (int fila = 0; fila < filas; fila++) {
             for (int col = 0; col < columnas; col++) {
-                Button casilla = new Button();
-                casilla.setPrefSize(50, 50);
-                int finalFila = fila;
-                int finalCol = col;
-                casilla.setOnAction(e -> abrirEditorDeCasilla(finalFila, finalCol));
-                casillas[fila][col] = casilla;
-                tablero.add(casilla, col, fila);
+                Button boton = new Button();
+                boton.setPrefSize(45, 45);
+                final int f = fila;
+                final int c = col;
+                boton.setOnAction(e -> seleccionarCasilla(f, c));
+                botonesCasilla[fila][col] = boton;
+                tablero.add(boton, c, fila);
             }
         }
 
-        VBox panelDerecho = construirPanelEditor();
+        // Panel lateral (derecha)
+        VBox panelDerecho = construirPanelEdicion();
         root.setCenter(tablero);
         root.setRight(panelDerecho);
 
         return new Scene(root, 800, 600);
     }
 
-    private void guardarTableroComoJson() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        TableroPersonalizado tablero = new TableroPersonalizado(datosCasillas);
-
-        try (FileWriter writer = new FileWriter("tablero_guardado.json")) {
-            gson.toJson(tablero, writer);
-            System.out.println("✅ Tablero guardado en JSON correctamente.");
-        } catch (IOException e) {
-            System.err.println("❌ Error al guardar el tablero: " + e.getMessage());
-        }
-    }
-
-    private VBox construirPanelEditor() {
+    private VBox construirPanelEdicion() {
         VBox panel = new VBox(15);
         panel.setPadding(new Insets(20));
         panel.setAlignment(Pos.TOP_CENTER);
 
-        Label lblInfo = new Label("Editar Casilla");
+        Label lblTitulo = new Label("Editar Casilla");
 
-        Slider sliderAtaque = new Slider(0, 10, 1);
-        Label lblAtaque = new Label("Ataque: 1");
+        // Slider Ataque
+        sliderAtaque = new Slider(0, 10, 1);
+        sliderAtaque.setShowTickLabels(true);
+        sliderAtaque.setShowTickMarks(true);
+        lblAtaque = new Label("Ataque: 1");
 
-        Slider sliderDefensa = new Slider(0, 10, 1);
-        Label lblDefensa = new Label("Defensa: 1");
-
-        Slider sliderMovimiento = new Slider(1, 5, 1);
-        Label lblMovimiento = new Label("Movimiento: 1");
-
-        // Listeners para actualizar valores en tiempo real
         sliderAtaque.valueProperty().addListener((obs, oldVal, newVal) -> {
             lblAtaque.setText("Ataque: " + newVal.intValue());
-            if (casillaSeleccionada != null) casillaSeleccionada.setAtaque(newVal.intValue());
+            if (casillaSeleccionada != null) {
+                casillaSeleccionada.setAtaqueExtra(newVal.intValue());
+            }
         });
+
+        // Slider Defensa
+        sliderDefensa = new Slider(0, 10, 1);
+        sliderDefensa.setShowTickLabels(true);
+        sliderDefensa.setShowTickMarks(true);
+        lblDefensa = new Label("Defensa: 1");
 
         sliderDefensa.valueProperty().addListener((obs, oldVal, newVal) -> {
             lblDefensa.setText("Defensa: " + newVal.intValue());
-            if (casillaSeleccionada != null) casillaSeleccionada.setDefensa(newVal.intValue());
+            if (casillaSeleccionada != null) {
+                casillaSeleccionada.setDefensaExtra(newVal.intValue());
+            }
         });
+
+        // Slider Movimiento
+        sliderMovimiento = new Slider(1, 5, 1);
+        sliderMovimiento.setShowTickLabels(true);
+        sliderMovimiento.setShowTickMarks(true);
+        lblMovimiento = new Label("Movimiento: 1");
 
         sliderMovimiento.valueProperty().addListener((obs, oldVal, newVal) -> {
             lblMovimiento.setText("Movimiento: " + newVal.intValue());
-            if (casillaSeleccionada != null) casillaSeleccionada.setMovimiento(newVal.intValue());
+            if (casillaSeleccionada != null) {
+                casillaSeleccionada.setCosteMovimiento(newVal.intValue());
+            }
         });
 
+        // Botón Guardar y continuar
         Button btnSiguiente = new Button("Siguiente");
         btnSiguiente.setOnAction(e -> {
-            // Imprimir datos para ver que están guardados correctamente
-            for (int i = 0; i < filas; i++) {
-                for (int j = 0; j < columnas; j++) {
-                    System.out.print(datosCasillas[i][j] + " ");
-                }
-                System.out.println();
-            }
-
-            btnSiguiente.setOnAction(e -> {
-                guardarTableroComoJson();
-                PantallaManager.mostrarPantallaEleccionPersonajes();
-            });
-            // Aquí puedes ir a la siguiente pantalla
-            // PantallaManager.mostrarPantallaEleccionPersonajes();
+            guardarTableroComoJson();
+            PantallaManager.mostrarPantallaEleccionPersonajes();
         });
 
-        panel.getChildren().addAll(lblInfo, lblAtaque, sliderAtaque, lblDefensa, sliderDefensa, lblMovimiento, sliderMovimiento, btnSiguiente);
+        panel.getChildren().addAll(
+                lblTitulo,
+                lblAtaque, sliderAtaque,
+                lblDefensa, sliderDefensa,
+                lblMovimiento, sliderMovimiento,
+                btnSiguiente
+        );
+
         return panel;
     }
 
-    private void abrirEditorDeCasilla(int fila, int col) {
+    private void seleccionarCasilla(int fila, int col) {
         casillaSeleccionada = datosCasillas[fila][col];
-        System.out.println("Editando casilla [" + fila + "," + col + "] " + casillaSeleccionada);
+        // Reflejar los valores actuales de la casilla en los sliders
+        sliderAtaque.setValue(casillaSeleccionada.getAtaqueExtra());
+        sliderDefensa.setValue(casillaSeleccionada.getDefensaExtra());
+        sliderMovimiento.setValue(casillaSeleccionada.getCosteMovimiento());
+    }
+
+    private void guardarTableroComoJson() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        TableroPersonalizado tablero = new TableroPersonalizado(datosCasillas);
+
+        try (FileWriter writer = new FileWriter("tableros/mi_tablero_personalizado.json")) {
+            gson.toJson(tablero, writer);
+            System.out.println("✅ Tablero guardado exitosamente.");
+        } catch (IOException e) {
+            System.err.println("❌ Error al guardar el tablero: " + e.getMessage());
+        }
     }
 
 

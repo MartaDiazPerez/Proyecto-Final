@@ -13,17 +13,11 @@ import java.io.File;
 
 public class PantallaJugarAnterior {
 
-    String archivo = "partida_guardada"; // nombre del archivo sin .json
-    PartidaGuardada partida = GuardadoUtils.cargarPartidaDesdeJson(archivo);
-    if (partida != null) {
-        PantallaManager.mostrarPartidaCargada(partida);
-    }
-
     private VBox contenedorArchivos;
     private String archivoSeleccionado = null;
 
     public Scene getScene() {
-        GuardadoUtils.asegurarDirectorioPartidas();
+        GuardadoUtils.asegurarDirectorioPartidas(); // Crea carpeta si no existe
 
         VBox layout = new VBox(20);
         layout.setPadding(new Insets(20));
@@ -41,7 +35,7 @@ public class PantallaJugarAnterior {
 
         Button btnCargar = new Button("Cargar Partida");
         Button btnBorrar = new Button("Borrar Partida");
-        Button btnVolver = new Button("Volver");
+        Button btnVolver = new Button("Volver al Menú");
 
         btnCargar.setOnAction(e -> {
             if (archivoSeleccionado != null) {
@@ -49,7 +43,11 @@ public class PantallaJugarAnterior {
                 PartidaGuardada partida = GuardadoUtils.cargarPartidaDesdeJson(ruta);
                 if (partida != null) {
                     PantallaManager.mostrarPartidaCargada(partida);
+                } else {
+                    mostrarAlerta("No se pudo cargar la partida seleccionada.");
                 }
+            } else {
+                mostrarAlerta("Selecciona una partida antes de cargar.");
             }
         });
 
@@ -58,10 +56,11 @@ public class PantallaJugarAnterior {
                 File archivo = new File("partidas/" + archivoSeleccionado);
                 if (archivo.exists()) {
                     archivo.delete();
-                    System.out.println("🗑️ Partida eliminada: " + archivoSeleccionado);
-                    actualizarLista(buscador.getText());
                     archivoSeleccionado = null;
+                    actualizarLista(buscador.getText());
                 }
+            } else {
+                mostrarAlerta("Selecciona una partida antes de borrar.");
             }
         });
 
@@ -69,7 +68,7 @@ public class PantallaJugarAnterior {
 
         layout.getChildren().addAll(lblTitulo, buscador, contenedorArchivos, btnCargar, btnBorrar, btnVolver);
 
-        actualizarLista(""); // mostrar todos al inicio
+        actualizarLista(""); // Mostrar todas al inicio
 
         return new Scene(layout, 600, 500);
     }
@@ -80,11 +79,11 @@ public class PantallaJugarAnterior {
         File carpeta = new File("partidas");
         File[] archivos = carpeta.listFiles((dir, name) -> name.endsWith(".json"));
 
-        if (archivos != null) {
+        if (archivos != null && archivos.length > 0) {
             ToggleGroup grupo = new ToggleGroup();
 
-            for (int i = 0; i < archivos.length; i++) {
-                String nombre = archivos[i].getName();
+            for (File archivo : archivos) {
+                String nombre = archivo.getName();
                 if (nombre.toLowerCase().contains(filtro.toLowerCase())) {
                     RadioButton rb = new RadioButton(nombre);
                     rb.setToggleGroup(grupo);
@@ -94,9 +93,17 @@ public class PantallaJugarAnterior {
             }
 
             if (contenedorArchivos.getChildren().isEmpty()) {
-                Label lbl = new Label("⚠️ No se encontraron partidas.");
-                contenedorArchivos.getChildren().add(lbl);
+                contenedorArchivos.getChildren().add(new Label("No hay coincidencias."));
             }
+        } else {
+            contenedorArchivos.getChildren().add(new Label("No hay partidas guardadas."));
         }
+    }
+
+    private void mostrarAlerta(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.WARNING);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 }
