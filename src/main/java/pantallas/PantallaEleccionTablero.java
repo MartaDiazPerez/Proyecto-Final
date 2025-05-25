@@ -33,4 +33,6 @@ public class PantallaEleccionTablero {
 
         return new Scene(layout, 600, 400);
     }
+    public static void main(String[] args) {;
+    }
 }

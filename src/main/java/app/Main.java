@@ -1,9 +1,7 @@
 package app;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import pantallas.PantallaPrincipal;
 
 public class Main extends Application {
 
