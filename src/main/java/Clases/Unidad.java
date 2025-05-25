@@ -1,5 +1,7 @@
 package Clases;
 
+import Practicas.Posicion;
+
 public class Unidad {
     protected  int hp;
     protected int ataque;
@@ -43,8 +45,11 @@ public class Unidad {
         return y;
     }
     public void setPosicion(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.x = posicion.x;
+        this.y = posicion.y;
+    }
+    public Posicion getPosicion() {
+        return new Posicion(this.x, this.y);
     }
 
     public int getRangoMovimiento(){
@@ -62,12 +67,5 @@ public class Unidad {
     public String getNombre(){
         return nombre;
     }
-
-
-
-
-
-
-
 
 }

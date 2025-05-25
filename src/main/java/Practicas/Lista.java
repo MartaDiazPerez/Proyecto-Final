@@ -32,4 +32,5 @@ public interface Lista<T> {
      */
     int getNumElementos();
 
+    T get(int i);
 }
