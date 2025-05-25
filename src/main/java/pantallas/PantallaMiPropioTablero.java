@@ -18,8 +18,8 @@ import java.io.IOException;
 
 public class PantallaMiPropioTablero {
 
-    private final int filas;
-    private final int columnas;
+    private int filas;
+    private int columnas;
 
     private Casilla[][] datosCasillas;
     private Button[][] botonesCasilla;
@@ -47,6 +47,10 @@ public class PantallaMiPropioTablero {
                 datosCasillas[i][j] = new Casilla(); // Usa el constructor por defecto
             }
         }
+    }
+
+    public PantallaMiPropioTablero() {
+
     }
 
     public Scene getScene() {

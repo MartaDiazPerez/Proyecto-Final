@@ -21,6 +21,9 @@ public class Unidad {
         this.nombre = nombre;
     }
 
+    public Unidad(String letras, int ataque, int defensa) {
+    }
+
     public void recibirDanio(int danio ){
         int factor = (int)(Math.random() * 3);
         danio = factor * 2 - defensa;
@@ -68,4 +71,7 @@ public class Unidad {
         return nombre;
     }
 
+    public Object getEquipo() {
+        return null;
+    }
 }

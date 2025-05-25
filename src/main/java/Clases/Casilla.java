@@ -18,6 +18,10 @@ public class Casilla {
         this.ocupada = false;
     }
 
+    public Casilla() {
+
+    }
+
     public boolean estaOcupada() {
         return ocupada;
     }

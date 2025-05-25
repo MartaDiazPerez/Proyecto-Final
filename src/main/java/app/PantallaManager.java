@@ -3,6 +3,7 @@ package app;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import modelo.PartidaGuardada;
+import modelo.ResumenPartida;
 import pantallas.*;
 
 public class PantallaManager {
@@ -94,7 +95,7 @@ public class PantallaManager {
     }
 
     public static void mostrarPantallaFinPartidaConResumen(String ganador, ResumenPartida resumen) {
-        Scene scene = new PantallaFinDePartida(ganador, resumen).getScene();
+        Scene scene = new PantallaFinDePartida(ganador).getScene();
         stage.setTitle("Fin de Partida - CONQUISTA");
         stage.setScene(scene);
     }

@@ -14,7 +14,7 @@ public class PantallaFinDePartida {
     private final String equipoGanador;
     private final ResumenPartida resumen;
 
-    public PantallaFinDePartida(String ganador, ResumenPartida resumen) {
+    public PantallaFinDePartida(String ganador) {
         this.equipoGanador = ganador;
         this.resumen = resumen;
     }
