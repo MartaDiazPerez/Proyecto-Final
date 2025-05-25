@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?> <?import javafx.scene.layout.*?> <?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.proyectofinal.MiPropioTablero"
+            prefHeight="400.0" prefWidth="600.0">
+    <center>
+        <GridPane fx:id="gridTablero" hgap="5" vgap="5" alignment="CENTER" BorderPane.alignment="CENTER">
+            <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+        </GridPane>
+    </center>
+
+    <right>
+        <VBox spacing="15" alignment="TOP_CENTER" BorderPane.alignment="CENTER_RIGHT">
+            <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+            <Label text="Editar Casilla"/>
+
+            <Label fx:id="lblAtaque" text="Ataque: 1"/>
+            <Slider fx:id="sliderAtaque" min="0" max="10" value="1" blockIncrement="1"
+                    majorTickUnit="1" minorTickCount="0" showTickLabels="true" showTickMarks="true"/>
+
+            <Label fx:id="lblDefensa" text="Defensa: 1"/>
+            <Slider fx:id="sliderDefensa" min="0" max="10" value="1" blockIncrement="1"
+                    majorTickUnit="1" minorTickCount="0" showTickLabels="true" showTickMarks="true"/>
+
+            <Label fx:id="lblMovimiento" text="Movimiento: 1"/>
+            <Slider fx:id="sliderMovimiento" min="1" max="5" value="1" blockIncrement="1"
+                    majorTickUnit="1" minorTickCount="0" showTickLabels="true" showTickMarks="true"/>
+
+            <Button fx:id="btnSiguiente" text="Siguiente" onAction="#guardarYContinuar"/>
+        </VBox>
+    </right>
+
+</BorderPane>
