@@ -30,4 +30,7 @@ public class PantallaEleccionPersonajes {
 
         return new Scene(layout, 600, 400);
     }
+    public static void main(String[] args) {;
+    }
+
 }

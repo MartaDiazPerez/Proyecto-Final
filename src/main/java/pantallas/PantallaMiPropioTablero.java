@@ -163,5 +163,7 @@ public class PantallaMiPropioTablero {
         }
     }
 
+    public static void main(String[] args) {;
+    }
 
 }

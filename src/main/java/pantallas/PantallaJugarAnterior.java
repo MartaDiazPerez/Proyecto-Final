@@ -106,4 +106,6 @@ public class PantallaJugarAnterior {
         alerta.setContentText(mensaje);
         alerta.showAndWait();
     }
+    public static void main(String[] args) {;
+    }
 }

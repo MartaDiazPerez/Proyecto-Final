@@ -56,4 +56,7 @@ public class PantallaConfiguracionTablero {
 
         return new Scene(layout, 600, 450);
     }
+    public static void main(String[] args) {;
+    }
+
 }

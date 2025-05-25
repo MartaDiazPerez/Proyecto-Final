@@ -90,4 +90,7 @@ public class PantallaTablerosGuardados {
             }
         }
     }
+    public static void main(String[] args) {
+        ;
+    }
 }

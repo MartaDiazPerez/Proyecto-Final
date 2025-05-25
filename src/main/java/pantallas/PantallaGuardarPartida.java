@@ -57,4 +57,7 @@ public class PantallaGuardarPartida {
         alerta.setContentText(mensaje);
         alerta.showAndWait();
     }
+    public static void main(String[] args) {;
+    }
+
 }

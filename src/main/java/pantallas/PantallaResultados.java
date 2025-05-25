@@ -29,4 +29,7 @@ public class PantallaResultados {
         layout.getChildren().addAll(lblResultado, btnContinuar);
         return new Scene(layout, 600, 400);
     }
+    public static void main(String[] args) {;
+    }
+
 }
