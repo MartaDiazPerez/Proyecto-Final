@@ -1,13 +1,11 @@
 package Clases;
 import EstructurasDeDatos.ListaUnidades;
-import Interfaces.IInventario;
-import Interfaces.IUnidad;
+import Practicas.Lista;
 
 
-public class Jugador implements IUnidad {
+public class Jugador {
     private ListaUnidades listaUnidades;
     private String nombre;
-    private List<IUnidad> unidades;
 
     public Jugador(String nombre) {
         this.nombre = nombre;
@@ -16,7 +14,7 @@ public class Jugador implements IUnidad {
 
     @Override
     public int getHP() {
-        return 0;
+        return Unidad.getHp();
     }
 
     @Override
@@ -49,33 +47,27 @@ public class Jugador implements IUnidad {
 
     }
 
-    @Override
-    public boolean estaViva() {
-        return false;
-    }
+
 
     public String getNombre() {
         return nombre;
     }
 
-    @Override
-    public IInventario getInventario() {
-        return null;
-    }
 
-    public List<IUnidad> getUnidades() {
-        return listaUnidades.obtenerTodas();
-    }
-
-    public void agregarUnidad(IUnidad unidad) {
-        listaUnidades.agregar(unidad);
-    }
-
-    public void eliminarUnidad(IUnidad unidad) {
-        listaUnidades.eliminar(unidad);
-    }
-
-    public boolean tieneUnidadesVivas() {
-        return !listaUnidades.obtenerVivas().isEmpty();
-    }
+//
+//    public Lista<IUnidad> getUnidades() {
+//        return listaUnidades.obtenerTodas();
+//    }
+//
+//    public void agregarUnidad(IUnidad unidad) {
+//        listaUnidades.agregar(unidad);
+//    }
+//
+//    public void eliminarUnidad(IUnidad unidad) {
+//        listaUnidades.eliminar(unidad);
+//    }
+//
+//    public boolean tieneUnidadesVivas() {
+//        return !listaUnidades.obtenerVivas().isEmpty();
+//    }
 }
