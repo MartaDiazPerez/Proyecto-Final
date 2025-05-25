@@ -1,7 +1,11 @@
 package EstructurasDeDatos;
 import Interfaces.IUnidad;
+import Practicas.Lista;
 
 public class ListaUnidades {
+    public Lista<IUnidad> obtenerTodas() {
+    }
+
     // Lista de unidades por jugador
     class ListaUnidades {
         private List<IUnidad> unidades;
@@ -18,11 +22,11 @@ public class ListaUnidades {
             unidades.remove(unidad);
         }
 
-        public List<IUnidad> obtenerTodas() {
+        public Lista<IUnidad> obtenerTodas() {
             return unidades;
         }
 
-        public List<IUnidad> obtenerVivas() {
+        public Lista<IUnidad> obtenerVivas() {
             return unidades.stream().filter(IUnidad::estaViva).toList();
         }
     }
