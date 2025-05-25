@@ -1,73 +1,41 @@
 package Clases;
-import EstructurasDeDatos.ListaUnidades;
 import Practicas.Lista;
+import Practicas.ListaSimplementeEnlazada;
 
 
 public class Jugador {
-    private ListaUnidades listaUnidades;
     private String nombre;
+    private ListaSimplementeEnlazada unidades;
+    private boolean esIA;
 
-    public Jugador(String nombre) {
+    public Jugador(String nombre, boolean esIA) {
         this.nombre = nombre;
-        this.listaUnidades = new ListaUnidades();
+        this.unidades = new ListaSimplementeEnlazada(1000, null);
+        this.esIA = esIA;
     }
-
-    @Override
-    public int getHP() {
-        return Unidad.getHp();
-    }
-
-    @Override
-    public int getAtaque() {
-        return 0;
-    }
-
-    @Override
-    public int getDefensa() {
-        return 0;
-    }
-
-    @Override
-    public int getRangoMovimiento() {
-        return 0;
-    }
-
-    @Override
-    public int getRangoAtaque() {
-        return 0;
-    }
-
-    @Override
-    public void recibirDanio(int danio) {
-
-    }
-
-    @Override
-    public void mover(int fila, int columna) {
-
-    }
-
-
 
     public String getNombre() {
         return nombre;
     }
 
+    public boolean esIA() {
+        return esIA;
+    }
 
-//
-//    public Lista<IUnidad> getUnidades() {
-//        return listaUnidades.obtenerTodas();
-//    }
-//
-//    public void agregarUnidad(IUnidad unidad) {
-//        listaUnidades.agregar(unidad);
-//    }
-//
-//    public void eliminarUnidad(IUnidad unidad) {
-//        listaUnidades.eliminar(unidad);
-//    }
-//
-//    public boolean tieneUnidadesVivas() {
-//        return !listaUnidades.obtenerVivas().isEmpty();
-//    }
+    public ListaSimplementeEnlazada getUnidades() {
+        return unidades;
+    }
+
+    public void agregarUnidad(Unidad unidad) {
+        unidades.add(unidad);
+    }
+
+    public void eliminarUnidad(Unidad unidad) {
+        unidades.delete(unidad);
+    }
+
+    public boolean tieneUnidades() {
+        return !unidades.estaVacia();
+    }
+
 }

@@ -1,8 +1,5 @@
 package Practicas;
 
-import EstructurasDeDatos.ListaUnidades;
-
-import javax.swing.text.InternationalFormatter;
 
 /**Se implementa una clase de la lista simplemente enlazada donde se
  * implementa la interfaz Lista<T> */
@@ -77,6 +74,11 @@ public class ListaSimplementeEnlazada <T> implements Lista<T> {
     /**Metodo que me devuelve el elemento de la cabeza de la lista**/
     public Elemento<T> getCabeza() {
         return cabeza;
+    }
+
+    /**Comprueba si la lista esta vacia*/
+    public boolean estaVacia() {
+        return numElementos == 0;
     }
 
 

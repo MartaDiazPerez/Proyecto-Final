@@ -32,4 +32,12 @@ public class Cola<T> {
     public boolean isEmpty() {
         return lista.getNumElementos() == 0;
     }
+
+    public T verelemento1() {
+        if (lista.getCabeza() == null) {
+            return null;
+        }
+        return (T) lista.getCabeza();
+    }
+
 }

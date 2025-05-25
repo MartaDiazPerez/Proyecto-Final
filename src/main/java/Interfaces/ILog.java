@@ -1,7 +1,9 @@
 package Interfaces;
 
+import Practicas.Lista;
+
 public interface ILog {
     void registrarEvento(String evento);
-    List<String> obtenerHistorial();
+    Lista<String> obtenerHistorial();
     void exportarLog(String archivo);
 }

@@ -2,7 +2,7 @@ package Clases;
 
 import Interfaces.ICasilla;
 
-public class Casilla implements ICasilla {
+public class Casilla {
     public int x,y;
     public boolean ocupada;
     public int costeMovimiento;

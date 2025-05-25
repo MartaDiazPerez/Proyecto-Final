@@ -1,52 +1,61 @@
 package Clases;
 
-import EstructurasDeDatos.ColaAcciones;
-import EstructurasDeDatos.PilaEventos;
-import Interfaces.IJugador;
-import Interfaces.IPartida;
+import Practicas.*;
 
-class Partida implements IPartida {
-    private ColaAcciones colaAcciones;
-    private PilaEventos pilaEventos;
-    private Queue<IJugador> colaJugadores;
-    private IJugador jugadorActual;
+class Partida{
+    private Jugador jugador1;
+    private Jugador jugadoriA;
+    private Tablero tablero;
+    private Cola turnos;
+    private int turnoActual;
+    private int T; // Intervalo de aparición de nueva unidad
 
-    public Partida(List<IJugador> jugadores) {
-        this.colaJugadores = new LinkedList<>(jugadores);
-        this.jugadorActual = this.colaJugadores.peek();
-        this.colaAcciones = new ColaAcciones();
-        this.pilaEventos = new PilaEventos();
-    }
+    public Partida(Jugador jugador1, Jugador jugadoriA, int filas, int columnas, int T) {
+        this.jugador1 = jugador1;
+        this.jugadoriA = jugadoriA;
+        this.tablero = new Tablero(filas, columnas);
+        this.turnos = new Cola();
+        this.T = T;
+        this.turnoActual = 0;
 
-    public void iniciar() {
-        jugadorActual = colaJugadores.peek();
-    }
-
-    public void terminar() {
-        // lógica de finalización si es necesaria
-    }
-
-    public IJugador getJugadorActual() {
-        return jugadorActual;
+        turnos.enqueue(jugador1);
+        turnos.enqueue(jugadoriA);
     }
 
     public void siguienteTurno() {
-        IJugador anterior = colaJugadores.poll();
-        if (anterior != null && anterior.tieneUnidadesVivas()) {
-            colaJugadores.offer(anterior);
+        turnos.enqueue(turnos.dequeue());
+        turnoActual++;
+
+        // Verificación para generar nueva unidad
+        if (turnoActual % T == 0) {
+            generarUnidadAleatoria(getJugadorActual());
         }
-        jugadorActual = colaJugadores.peek();
     }
 
-    public boolean esFinDePartida() {
-        return colaJugadores.stream().filter(Jugador::tieneUnidadesVivas).count() <= 1;
+    private void generarUnidadAleatoria(Jugador jugador) {
+        // Aquí podrías usar Math.random para elegir una subclase de Unidad
+        // y colocarla junto a otra unidad del jugador si hay espacio
+        // (queda como punto de implementación específico)
     }
 
-    public void guardarPartida(String nombreArchivo) {
-        // serialización opcional
+    public boolean verificarVictoria() {
+        return !jugador1.tieneUnidades() || !jugadoriA.tieneUnidades();
     }
 
-    public void cargarPartida(String nombreArchivo) {
-        // deserialización opcional
+    public Jugador getGanador() {
+        if (!jugador1.tieneUnidades()) return jugadoriA;
+        if (!jugadoriA.tieneUnidades()) return jugador1;
+        return null;
+    }
+
+    public Tablero getTablero() {
+        return tablero;
+    }
+
+    public int getTurnoActual() {
+        return turnoActual;
+    }
+    public Jugador getJugadorActual() {
+        return (Jugador) turnos.verelemento1();
     }
 }
