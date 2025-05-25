@@ -1,7 +1,7 @@
 package Clases;
 
 public class Unidad {
-    protected int hp;
+    protected  int hp;
     protected int ataque;
     protected int defensa;
     protected int rangoMovimiento;
@@ -9,7 +9,7 @@ public class Unidad {
     //posicion en el tablero
     protected int x, y;
     protected String nombre;
-    /// constructor
+    // constructor
     public Unidad(int hp, int ataque, int defensa, int rangoMovimiento, int rangoAtaque, String nombre) {
         this.hp = hp;
         this.ataque = ataque;
@@ -20,10 +20,23 @@ public class Unidad {
     }
 
     public void recibirDanio( int danio){
-        int factor = (int)(Math.random() * 3);
-        danio= factor*2 -defensa;
-        this.hp= hp- danio;
-        if(this.hp<0){ this.hp=0;}
+        try {
+            int factor = (int)(Math.random() * 3);
+            danio = factor * 2 - defensa;
+
+            // Si el daño calculado es negativo, lo forzamos a cero
+            if (danio < 0) {
+                throw new IllegalArgumentException("El daño no puede ser negativo");
+            }
+
+        } catch (IllegalArgumentException e) {
+            danio = 0;
+        }
+
+        this.hp = hp - danio;
+        if (this.hp < 0) {
+            this.hp = 0;
+        }
     }
 
     public int getHp() {
