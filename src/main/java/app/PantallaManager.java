@@ -86,4 +86,16 @@ public class PantallaManager {
         stage.setTitle("Cargar Partida - CONQUISTA");
         stage.setScene(scene);
     }
+
+    public static void mostrarPantallaFinPartidaConGanador(String equipoGanador) {
+        Scene scene = new PantallaFinDePartida(equipoGanador).getScene();
+        stage.setTitle("Fin de Partida - CONQUISTA");
+        stage.setScene(scene);
+    }
+
+    public static void mostrarPantallaFinPartidaConResumen(String ganador, ResumenPartida resumen) {
+        Scene scene = new PantallaFinDePartida(ganador, resumen).getScene();
+        stage.setTitle("Fin de Partida - CONQUISTA");
+        stage.setScene(scene);
+    }
 }
