@@ -19,21 +19,15 @@ public class Unidad {
         this.nombre = nombre;
     }
 
-    public void recibirDanio( int danio){
-        try {
-            int factor = (int)(Math.random() * 3);
-            danio = factor * 2 - defensa;
+    public void recibirDanio(int danio ){
+        int factor = (int)(Math.random() * 3);
+        danio = factor * 2 - defensa;
 
-            // Si el daño calculado es negativo, lo forzamos a cero
-            if (danio < 0) {
-                throw new IllegalArgumentException("El daño no puede ser negativo");
-            }
-
-        } catch (IllegalArgumentException e) {
+        if (danio < 0) {
             danio = 0;
         }
 
-        this.hp = hp - danio;
+        this.hp -= danio;
         if (this.hp < 0) {
             this.hp = 0;
         }
@@ -65,7 +59,7 @@ public class Unidad {
     public int getAtaque(){
         return ataque;
     }
-    public String getNombre(String nombre){
+    public String getNombre(){
         return nombre;
     }
 

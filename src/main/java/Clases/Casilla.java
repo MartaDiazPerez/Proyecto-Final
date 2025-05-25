@@ -18,7 +18,7 @@ public class Casilla implements ICasilla {
         this.ocupada = false;
     }
 
-    public boolean estaocupada() {
+    public boolean estaOcupada() {
         return ocupada;
     }
 
@@ -62,7 +62,7 @@ public class Casilla implements ICasilla {
         return y;
     }
     //posicion xy
-    public void setPosicionXY(int x, int y) {
+    public void setPosicion(int x, int y) {
         this.x = x;
         this.y = y;
     }
