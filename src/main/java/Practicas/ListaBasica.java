@@ -77,4 +77,9 @@ public class ListaBasica<T> implements Lista<T> {
         return this.numElementos;
     }
 
+    @Override
+    public T get(int i) {
+        return null;
+    }
+
 }

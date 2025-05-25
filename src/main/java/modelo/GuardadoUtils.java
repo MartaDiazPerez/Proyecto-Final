@@ -16,7 +16,7 @@ public class GuardadoUtils {
         if (!carpeta.exists()) {
             boolean creada = carpeta.mkdir();
             if (creada) {
-                System.out.println("📁 Carpeta 'partidas' creada.");
+                System.out.println("Carpeta 'partidas' creada.");
             }
         }
     }
@@ -26,7 +26,7 @@ public class GuardadoUtils {
         if (!carpeta.exists()) {
             boolean creada = carpeta.mkdir();
             if (creada) {
-                System.out.println("📁 Carpeta 'tableros' creada.");
+                System.out.println("Carpeta 'tableros' creada.");
             }
         }
     }
@@ -36,7 +36,7 @@ public class GuardadoUtils {
         try (FileReader reader = new FileReader(nombreArchivoSinExtension + ".json")) {
             return gson.fromJson(reader, PartidaGuardada.class);
         } catch (IOException e) {
-            System.err.println("❌ Error al cargar la partida: " + e.getMessage());
+            System.err.println(" Error al cargar la partida: " + e.getMessage());
             return null;
         }
     }
@@ -46,7 +46,7 @@ public class GuardadoUtils {
         try (FileReader reader = new FileReader(nombreArchivoSinExtension + ".json")) {
             return gson.fromJson(reader, TableroPersonalizado.class);
         } catch (IOException e) {
-            System.err.println("❌ Error al cargar el tablero: " + e.getMessage());
+            System.err.println(" Error al cargar el tablero: " + e.getMessage());
             return null;
         }
     }

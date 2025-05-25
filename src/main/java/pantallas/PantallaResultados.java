@@ -19,7 +19,7 @@ public class PantallaResultados {
         VBox layout = new VBox(30);
         layout.setAlignment(Pos.CENTER);
 
-        Label lblResultado = new Label("🎉 ¡Victoria del equipo " + equipoGanador + "!");
+        Label lblResultado = new Label(" ¡Victoria del equipo " + equipoGanador + "!");
         Button btnContinuar = new Button("Finalizar");
 
         btnContinuar.setOnAction(e -> {

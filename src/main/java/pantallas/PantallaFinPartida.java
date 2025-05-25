@@ -21,7 +21,7 @@ public class PantallaFinPartida {
         Button btnCerrar = new Button("Cerrar Juego");
 
         btnGuardarTablero.setOnAction(e -> {
-            System.out.println("📁 Guardar tablero actual... (Por implementar)");
+            System.out.println(" Guardar tablero actual... (Por implementar)");
             // Aquí podrías reutilizar guardarTableroComoJson() si conservas la matriz Casilla[][]
         });
 

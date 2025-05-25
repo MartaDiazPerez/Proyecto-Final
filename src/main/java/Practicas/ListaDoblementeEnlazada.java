@@ -70,4 +70,9 @@ class ListaDoblementeEnlazada<T> implements Lista<T> {
     public int getNumElementos() {
         return numElementos;
     }
+
+    @Override
+    public T get(int i) {
+        return null;
+    }
 }

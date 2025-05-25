@@ -161,9 +161,9 @@ public class PantallaMiPropioTablero {
 
         try (FileWriter writer = new FileWriter("tableros/mi_tablero_personalizado.json")) {
             gson.toJson(tablero, writer);
-            System.out.println("✅ Tablero guardado exitosamente.");
+            System.out.println(" Tablero guardado exitosamente.");
         } catch (IOException e) {
-            System.err.println("❌ Error al guardar el tablero: " + e.getMessage());
+            System.err.println(" Error al guardar el tablero: " + e.getMessage());
         }
     }
 

@@ -26,7 +26,7 @@ public class PantallaTablerosGuardados {
         layout.setPadding(new Insets(20));
         layout.setAlignment(Pos.CENTER);
 
-        Label lblTitulo = new Label("🗂️ Tableros Guardados");
+        Label lblTitulo = new Label(" Tableros Guardados");
 
         TextField buscador = new TextField();
         buscador.setPromptText("Buscar por nombre...");

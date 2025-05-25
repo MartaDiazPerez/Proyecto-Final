@@ -23,7 +23,7 @@ public class PantallaJugarAnterior {
         layout.setPadding(new Insets(20));
         layout.setAlignment(Pos.CENTER);
 
-        Label lblTitulo = new Label("📂 Partidas Guardadas");
+        Label lblTitulo = new Label(" Partidas Guardadas");
 
         TextField buscador = new TextField();
         buscador.setPromptText("Buscar por nombre...");

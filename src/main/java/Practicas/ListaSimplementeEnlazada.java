@@ -71,6 +71,11 @@ public class ListaSimplementeEnlazada <T> implements Lista<T> {
         return numElementos;
     }
 
+    @Override
+    public T get(int i) {
+        return null;
+    }
+
     /**Metodo que me devuelve el elemento de la cabeza de la lista**/
     public Elemento<T> getCabeza() {
         return cabeza;

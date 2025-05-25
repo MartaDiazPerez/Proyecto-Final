@@ -12,8 +12,8 @@ public class PantallaEleccionPersonajes {
         VBox layout = new VBox(30);
         layout.setAlignment(Pos.CENTER);
 
-        Button btnCiencias = new Button("Equipo CIENCIAS 🧪");
-        Button btnLetras = new Button("Equipo LETRAS 📚");
+        Button btnCiencias = new Button("Equipo CIENCIAS ");
+        Button btnLetras = new Button("Equipo LETRAS ");
 
         // Acciones al elegir un equipo
         btnCiencias.setOnAction(e -> {

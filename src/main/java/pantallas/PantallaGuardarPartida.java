@@ -25,7 +25,7 @@ public class PantallaGuardarPartida {
         btnGuardarTodo.setOnAction(e -> {
             String nombre = tfNombreArchivo.getText().trim();
             if (!nombre.isEmpty()) {
-                System.out.println("✅ Guardando partida completa como: " + nombre + ".json");
+                System.out.println(" Guardando partida completa como: " + nombre + ".json");
                 // Aquí llama a guardarPartidaCompleta(nombre); ← accediendo al estado de juego
                 PantallaManager.mostrarPantallaPrincipal();
             } else {
@@ -36,7 +36,7 @@ public class PantallaGuardarPartida {
         btnGuardarTablero.setOnAction(e -> {
             String nombre = tfNombreArchivo.getText().trim();
             if (!nombre.isEmpty()) {
-                System.out.println("✅ Guardando solo el tablero como: " + nombre + ".json");
+                System.out.println(" Guardando solo el tablero como: " + nombre + ".json");
                 // guardarSoloTablero(nombre); // Por implementar
                 PantallaManager.mostrarPantallaPrincipal();
             } else {

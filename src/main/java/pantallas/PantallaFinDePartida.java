@@ -23,8 +23,8 @@ public class PantallaFinDePartida {
         VBox layout = new VBox(20);
         layout.setAlignment(Pos.CENTER);
 
-        Label lblVictoria = new Label("🎉 ¡Victoria del equipo " + equipoGanador + "!");
-        Label lblResumen = new Label("📊 Resumen de la Partida:");
+        Label lblVictoria = new Label(" ¡Victoria del equipo " + equipoGanador + "!");
+        Label lblResumen = new Label(" Resumen de la Partida:");
         Label lblTurnos = new Label("Turnos jugados: " + resumen.getTurnosTotales());
         Label lblCiencias = new Label("Unidades de Letras eliminadas: " + resumen.getEliminadasLetras());
         Label lblLetras = new Label("Unidades de Ciencias eliminadas: " + resumen.getEliminadasCiencias());
