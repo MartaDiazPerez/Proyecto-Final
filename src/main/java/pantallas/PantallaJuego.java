@@ -1,5 +1,6 @@
 package pantallas;
 
+import Clases.Casilla;
 import Clases.Unidad;
 import app.PantallaManager;
 import javafx.geometry.Insets;
@@ -8,20 +9,45 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import modelo.PartidaGuardada;
+
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class PantallaJuego {
 
-    private final int filas = 6;
-    private final int columnas = 6;
-    private Button[][] casillas;
-    private String turnoActual = "CIENCIAS";
-
+    private final int filas;
+    private Casilla[][] tableroCasillas;
     private Unidad[][] unidades;
-    private Unidad unidadSeleccionada = null;
-    private int origenFila = -1;
-    private int origenCol = -1;
+    private String turnoActual;
 
-    private boolean modoAtaque = false;
+    private Button[][] casillas;
+    private Unidad unidadSeleccionada;
+    private int origenFila, origenCol;
+    private boolean modoAtaque;
+
+    public PantallaJuego(Casilla[][] tablero, Unidad[][] unidades, String turno) {
+        this.tableroCasillas = tablero;
+        this.unidades = unidades;
+        this.turnoActual = turno;
+
+        this.filas = tablero.length;
+        this.columnas = tablero[0].length;
+    }
+
+    private void guardarPartidaCompleta(String nombreArchivo) {
+        PartidaGuardada partida = new PartidaGuardada(tableroCasillas, unidades, turnoActual); // tableroCasillas = Casilla[][]
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(nombreArchivo + ".json")) {
+            gson.toJson(partida, writer);
+            System.out.println("📁 Partida guardada como " + nombreArchivo + ".json");
+        } catch (IOException e) {
+            System.err.println("❌ Error al guardar partida: " + e.getMessage());
+        }
+    }
 
     private void actualizarTablero() {
         for (int fila = 0; fila < filas; fila++) {

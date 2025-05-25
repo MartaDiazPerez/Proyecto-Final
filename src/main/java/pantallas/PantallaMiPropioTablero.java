@@ -7,6 +7,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import modelo.TableroPersonalizado;
+
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class PantallaMiPropioTablero {
 
@@ -64,6 +70,18 @@ public class PantallaMiPropioTablero {
         root.setRight(panelDerecho);
 
         return new Scene(root, 800, 600);
+    }
+
+    private void guardarTableroComoJson() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        TableroPersonalizado tablero = new TableroPersonalizado(datosCasillas);
+
+        try (FileWriter writer = new FileWriter("tablero_guardado.json")) {
+            gson.toJson(tablero, writer);
+            System.out.println("✅ Tablero guardado en JSON correctamente.");
+        } catch (IOException e) {
+            System.err.println("❌ Error al guardar el tablero: " + e.getMessage());
+        }
     }
 
     private VBox construirPanelEditor() {

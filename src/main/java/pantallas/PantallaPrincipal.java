@@ -37,6 +37,8 @@ public class PantallaPrincipal {
         });
         btnComoSeJuega.setOnAction(e -> PantallaManager.mostrarPantallaTutorial());
         btnNuevaPartida.setOnAction(e -> PantallaManager.mostrarPantallaEleccionTablero());
+        btnJugarAnterior.setOnAction(e -> PantallaManager.mostrarPantallaJugarAnterior());
+        btnJugarAnterior.setOnAction(e -> PantallaManager.mostrarPantallaJugarAnterior());
         layout.getChildren().addAll(btnJugarAnterior, btnNuevaPartida, btnComoSeJuega);
 
         return new Scene(layout, 600, 400);

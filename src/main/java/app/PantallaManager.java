@@ -2,6 +2,7 @@ package app;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import modelo.PartidaGuardada;
 import pantallas.*;
 
 public class PantallaManager {
@@ -71,6 +72,18 @@ public class PantallaManager {
     public static void mostrarPantallaGuardarPartida() {
         Scene scene = new PantallaGuardarPartida().getScene();
         stage.setTitle("Guardar Partida - CONQUISTA");
+        stage.setScene(scene);
+    }
+
+    public static void mostrarPartidaCargada(PartidaGuardada partida) {
+        Scene scene = new PantallaJuego(partida.getTablero(), partida.getUnidades(), partida.getTurno()).getScene();
+        stage.setTitle("Partida Cargada - CONQUISTA");
+        stage.setScene(scene);
+    }
+
+    public static void mostrarPantallaJugarAnterior() {
+        Scene scene = new PantallaJugarAnterior().getScene();
+        stage.setTitle("Cargar Partida - CONQUISTA");
         stage.setScene(scene);
     }
 }
