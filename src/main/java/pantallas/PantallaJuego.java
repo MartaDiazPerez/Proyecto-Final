@@ -1,5 +1,5 @@
 package pantallas;
-
+import modelo.*;
 import Clases.Casilla;
 import Clases.Unidad;
 import app.PantallaManager;
@@ -15,6 +15,9 @@ import modelo.PartidaGuardada;
 
 import java.io.FileWriter;
 import java.io.IOException;
+
+
+
 
 public class PantallaJuego {
 
@@ -32,6 +35,7 @@ public class PantallaJuego {
     private Label lblMov;
     private Label lblAtaque;
 
+
     public PantallaJuego(Casilla[][] tablero, Unidad[][] unidades, String turno) {
         this.tableroCasillas = tablero;
         this.unidades = unidades;
@@ -47,14 +51,17 @@ public class PantallaJuego {
         try (FileWriter writer = new FileWriter(nombreArchivo + ".json")) {
             gson.toJson(partida, writer);
             System.out.println("Partida guardada como " + nombreArchivo + ".json");
+            Logger.escribirLog("Partida guardada como " + nombreArchivo + ".json");
         } catch (IOException e) {
             System.err.println("Error al guardar partida: " + e.getMessage());
+            Logger.escribirLog("Error al guardar partida: " + e.getMessage());
         }
     }
 
     private void cambiarTurno() {
         turnoActual = turnoActual.equals("CIENCIAS") ? "LETRAS" : "CIENCIAS";
         System.out.println("Turno ahora: " + turnoActual);
+        Logger.escribirLog("Cambio de turno. Ahora juega: " + turnoActual);
     }
 
     private void actualizarTablero() {
@@ -78,21 +85,27 @@ public class PantallaJuego {
                 origenFila = fila;
                 origenCol = col;
                 System.out.println("Seleccionada unidad en [" + fila + "," + col + "]");
+                Logger.escribirLog("Unidad seleccionada en [" + fila + "," + col + "] por el equipo " + turnoActual);
             }
+
+
         } else {
             if (modoAtaque) {
                 if (unidad != null && !unidad.getEquipo().equals(turnoActual)) {
                     int distancia = Math.abs(fila - origenFila) + Math.abs(col - origenCol);
                     if (distancia <= unidadSeleccionada.getAtaque()) {
                         System.out.println("¡Ataque exitoso!");
+                        Logger.escribirLog("Ataque exitoso del equipo " + turnoActual + " desde [" + origenFila + "," + origenCol + "] a [" + fila + "," + col + "]");
                         unidades[fila][col] = null;
                         cambiarTurno();
                         verificarFinDePartida();
                     } else {
                         System.out.println("Enemigo fuera de alcance.");
+                        Logger.escribirLog("Ataque fallido: enemigo fuera de alcance [" + origenFila + "," + origenCol + "] -> [" + fila + "," + col + "]");
                     }
                 } else {
                     System.out.println("No puedes atacar esa casilla.");
+                    Logger.escribirLog("Ataque inválido: casilla no válida en [" + fila + "," + col + "]");
                 }
                 modoAtaque = false;
                 unidadSeleccionada = null;
@@ -106,12 +119,15 @@ public class PantallaJuego {
                     unidades[fila][col] = unidadSeleccionada;
                     unidades[origenFila][origenCol] = null;
                     System.out.println("Unidad movida a [" + fila + "," + col + "]");
+                    Logger.escribirLog("Unidad del equipo " + turnoActual + " movida de [" + origenFila + "," + origenCol + "] a [" + fila + "," + col + "]");
                     cambiarTurno();
                 } else {
                     System.out.println("Movimiento demasiado lejano");
+                    Logger.escribirLog("Movimiento inválido por el equipo " + turnoActual + ": de [" + origenFila + "," + origenCol + "] a [" + fila + "," + col + "]");
                 }
             } else {
                 System.out.println("Casilla ocupada");
+                Logger.escribirLog("Movimiento fallido: la casilla [" + fila + "," + col + "] ya está ocupada");
             }
 
             actualizarEstadisticas();
@@ -150,6 +166,7 @@ public class PantallaJuego {
         if (!quedanCiencias || !quedanLetras) {
             String ganador = quedanCiencias ? "CIENCIAS" : "LETRAS";
             System.out.println(" ¡El equipo " + ganador + " ha ganado!");
+            Logger.escribirLog("Fin de la partida. Ganador: " + ganador);
             PantallaManager.mostrarPantallaResultados(ganador);
         }
     }
@@ -200,8 +217,10 @@ public class PantallaJuego {
             if (unidadSeleccionada != null) {
                 modoAtaque = false;
                 System.out.println("Modo MOVER activado. Selecciona casilla vacía.");
+                Logger.escribirLog("Modo MOVER activado por el equipo " + turnoActual);
             } else {
                 System.out.println("Primero selecciona una unidad propia.");
+                Logger.escribirLog("Intento de activar MODO MOVER sin unidad seleccionada");
             }
         });
 
@@ -209,13 +228,16 @@ public class PantallaJuego {
             if (unidadSeleccionada != null) {
                 modoAtaque = true;
                 System.out.println("Modo ATAQUE activado. Selecciona unidad enemiga.");
+                Logger.escribirLog("Modo ATAQUE activado por el equipo " + turnoActual);
             } else {
                 System.out.println("Primero selecciona una unidad propia.");
+                Logger.escribirLog("Intento de activar MODO ATAQUE sin unidad seleccionada");
             }
         });
 
         btnSalir.setOnAction(e -> {
             System.out.println("Saliendo de la partida...");
+            Logger.escribirLog("Jugador salió de la partida");
             PantallaManager.mostrarPantallaGuardarPartida();
         });
 
@@ -232,4 +254,6 @@ public class PantallaJuego {
     }
     public static void main(String[] args) {;
     }
+
+
 }
