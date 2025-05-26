@@ -19,7 +19,7 @@ public class PantallaTablerosGuardados {
     private String archivoSeleccionado = null;
 
     public Scene getScene() {
-        GuardadoUtils GuardadoUtils;
+        GuardadoUtils GuardadoUtils = null;
         GuardadoUtils.asegurarDirectorioTableros();
 
         VBox layout = new VBox(20);

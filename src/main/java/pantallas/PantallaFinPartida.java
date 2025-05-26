@@ -22,7 +22,6 @@ public class PantallaFinPartida {
 
         btnGuardarTablero.setOnAction(e -> {
             System.out.println(" Guardar tablero actual... (Por implementar)");
-            // Aquí podrías reutilizar guardarTableroComoJson() si conservas la matriz Casilla[][]
         });
 
         btnMenuPrincipal.setOnAction(e -> PantallaManager.mostrarPantallaPrincipal());

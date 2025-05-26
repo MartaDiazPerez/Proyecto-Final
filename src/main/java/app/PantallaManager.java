@@ -1,10 +1,14 @@
 package app;
 
+import Clases.Casilla;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import modelo.PartidaGuardada;
 import modelo.ResumenPartida;
 import pantallas.*;
+
+import java.io.IOException;
 
 public class PantallaManager {
     private static Stage stage;
@@ -14,10 +18,15 @@ public class PantallaManager {
     }
 
     public static void mostrarPantallaPrincipal() {
-        Scene scene = new PantallaPrincipal().getScene();
-        stage.setTitle("CONQUISTA");
-        stage.setScene(scene);
-        stage.show();
+        try {
+            FXMLLoader loader = new FXMLLoader(PantallaManager.class.getResource("/PantallaPrincipal.fxml"));
+            Scene scene = new Scene(loader.load(), 800, 500);
+            stage.setTitle("CONQUISTA");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Aquí añadirás métodos como:
@@ -89,14 +98,24 @@ public class PantallaManager {
     }
 
     public static void mostrarPantallaFinPartidaConGanador(String equipoGanador) {
-        Scene scene = new PantallaFinDePartida(equipoGanador).getScene();
+        Scene scene = new PantallaResultados(equipoGanador).getScene();
         stage.setTitle("Fin de Partida - CONQUISTA");
         stage.setScene(scene);
     }
 
     public static void mostrarPantallaFinPartidaConResumen(String ganador, ResumenPartida resumen) {
-        Scene scene = new PantallaFinDePartida(ganador).getScene();
+        Scene scene = new PantallaResultados(ganador).getScene();
         stage.setTitle("Fin de Partida - CONQUISTA");
         stage.setScene(scene);
+    }
+
+    public static void mostrarPantallaEleccionPersonajesDesdeTablero(Casilla[][] casillas) {
+    }
+
+    public static void mostrarPantallaMiPropioTablero() {
+    }
+
+    public static void mostrarPantallaJuego() {
+
     }
 }

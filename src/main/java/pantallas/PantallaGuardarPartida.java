@@ -26,7 +26,7 @@ public class PantallaGuardarPartida {
             String nombre = tfNombreArchivo.getText().trim();
             if (!nombre.isEmpty()) {
                 System.out.println(" Guardando partida completa como: " + nombre + ".json");
-                // Aquí llama a guardarPartidaCompleta(nombre); ← accediendo al estado de juego
+                // Aquí llama a guardarPartidaCompleta(nombre)
                 PantallaManager.mostrarPantallaPrincipal();
             } else {
                 mostrarAlerta("Por favor, ingresa un nombre de archivo.");

@@ -165,7 +165,7 @@ public class PantallaJuego {
 
         if (!quedanCiencias || !quedanLetras) {
             String ganador = quedanCiencias ? "CIENCIAS" : "LETRAS";
-            System.out.println(" ¡El equipo " + ganador + " ha ganado!");
+            System.out.println("🎉 ¡El equipo " + ganador + " ha ganado!");
             Logger.escribirLog("Fin de la partida. Ganador: " + ganador);
             PantallaManager.mostrarPantallaResultados(ganador);
         }

@@ -16,7 +16,7 @@ public class PantallaEleccionTablero {
         Button btnNuevoTablero = new Button("Nuevo Tablero");
         Button btnVolver = new Button("Volver al Menú");
 
-        // Acciones de botón (por ahora placeholders)
+        // Acciones de botón
         btnTablerosAnteriores.setOnAction(e -> {
             System.out.println("Ir a pantalla de tableros anteriores (por implementar)");
         });
