@@ -3,14 +3,14 @@ package pantallas;
 import Clases.Casilla;
 import Clases.Unidad;
 import app.PantallaManager;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import modelo.PartidaGuardada;
 
 import java.io.FileWriter;
@@ -23,11 +23,14 @@ public class PantallaJuego {
     private Casilla[][] tableroCasillas;
     private Unidad[][] unidades;
     private String turnoActual;
-
     private Button[][] casillas;
     private Unidad unidadSeleccionada;
     private int origenFila, origenCol;
     private boolean modoAtaque;
+
+    private Label lblEquipo;
+    private Label lblMov;
+    private Label lblAtaque;
 
     public PantallaJuego(Casilla[][] tablero, Unidad[][] unidades, String turno) {
         this.tableroCasillas = tablero;
@@ -39,16 +42,19 @@ public class PantallaJuego {
     }
 
     private void guardarPartidaCompleta(String nombreArchivo) {
-        PartidaGuardada partida = new PartidaGuardada(tableroCasillas, unidades, turnoActual); // tableroCasillas = Casilla[][]
-
+        PartidaGuardada partida = new PartidaGuardada(tableroCasillas, unidades, turnoActual);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileWriter writer = new FileWriter(nombreArchivo + ".json")) {
             gson.toJson(partida, writer);
-            System.out.println(
-                    " Partida guardada como " + nombreArchivo + ".json");
+            System.out.println("Partida guardada como " + nombreArchivo + ".json");
         } catch (IOException e) {
-            System.err.println(" Error al guardar partida: " + e.getMessage());
+            System.err.println("Error al guardar partida: " + e.getMessage());
         }
+    }
+
+    private void cambiarTurno() {
+        turnoActual = turnoActual.equals("CIENCIAS") ? "LETRAS" : "CIENCIAS";
+        System.out.println("Turno ahora: " + turnoActual);
     }
 
     private void actualizarTablero() {
@@ -63,166 +69,133 @@ public class PantallaJuego {
         }
     }
 
+    private void manejarClickCasilla(int fila, int col) {
+        Unidad unidad = unidades[fila][col];
+
+        if (unidadSeleccionada == null) {
+            if (unidad != null && unidad.getEquipo().equals(turnoActual)) {
+                unidadSeleccionada = unidad;
+                origenFila = fila;
+                origenCol = col;
+                System.out.println("Seleccionada unidad en [" + fila + "," + col + "]");
+            }
+        } else {
+            if (modoAtaque) {
+                if (unidad != null && !unidad.getEquipo().equals(turnoActual)) {
+                    int distancia = Math.abs(fila - origenFila) + Math.abs(col - origenCol);
+                    if (distancia <= unidadSeleccionada.getAtaque()) {
+                        System.out.println("¡Ataque exitoso!");
+                        unidades[fila][col] = null;
+                        cambiarTurno();
+                        verificarFinDePartida();
+                    } else {
+                        System.out.println("Enemigo fuera de alcance.");
+                    }
+                } else {
+                    System.out.println("No puedes atacar esa casilla.");
+                }
+                modoAtaque = false;
+                unidadSeleccionada = null;
+                actualizarTablero();
+                return;
+            }
+
+            if (unidades[fila][col] == null) {
+                int distancia = Math.abs(fila - origenFila) + Math.abs(col - origenCol);
+                if (distancia <= unidadSeleccionada.getMovimiento()) {
+                    unidades[fila][col] = unidadSeleccionada;
+                    unidades[origenFila][origenCol] = null;
+                    System.out.println("Unidad movida a [" + fila + "," + col + "]");
+                    cambiarTurno();
+                } else {
+                    System.out.println("Movimiento demasiado lejano");
+                }
+            } else {
+                System.out.println("Casilla ocupada");
+            }
+
+            actualizarEstadisticas();
+            unidadSeleccionada = null;
+            modoAtaque = false;
+            actualizarTablero();
+        }
+    }
+
+    private void actualizarEstadisticas() {
+        if (unidadSeleccionada != null) {
+            lblEquipo.setText("Equipo: " + unidadSeleccionada.getEquipo());
+            lblMov.setText("Movimiento: " + unidadSeleccionada.getMovimiento());
+            lblAtaque.setText("Ataque: " + unidadSeleccionada.getAtaque());
+        } else {
+            lblEquipo.setText("Equipo: -");
+            lblMov.setText("Movimiento: -");
+            lblAtaque.setText("Ataque: -");
+        }
+    }
+
+    private void verificarFinDePartida() {
+        boolean quedanCiencias = false;
+        boolean quedanLetras = false;
+
+        for (int fila = 0; fila < filas; fila++) {
+            for (int col = 0; col < columnas; col++) {
+                Unidad u = unidades[fila][col];
+                if (u != null) {
+                    if (u.getEquipo().equals("CIENCIAS")) quedanCiencias = true;
+                    if (u.getEquipo().equals("LETRAS")) quedanLetras = true;
+                }
+            }
+        }
+
+        if (!quedanCiencias || !quedanLetras) {
+            String ganador = quedanCiencias ? "CIENCIAS" : "LETRAS";
+            System.out.println("🎉 ¡El equipo " + ganador + " ha ganado!");
+            PantallaManager.mostrarPantallaResultados(ganador);
+        }
+    }
+
     public Scene getScene() {
         BorderPane root = new BorderPane();
 
-        // Centro: Tablero
         GridPane tablero = new GridPane();
         tablero.setHgap(5);
         tablero.setVgap(5);
         tablero.setPadding(new Insets(20));
         tablero.setAlignment(Pos.CENTER);
 
-        unidades = new Unidad[filas][columnas];
-
-
-        // Posicionar unidades iniciales
-        unidades[0][0] = new Unidad("CIENCIAS", 2);
-        unidades[5][5] = new Unidad("LETRAS", 2);
-        actualizarTablero();
-
-        private void cambiarTurno() {
-            turnoActual = turnoActual.equals("CIENCIAS") ? "LETRAS" : "CIENCIAS";
-            System.out.println("Turno ahora: " + turnoActual);
-        }
-
         casillas = new Button[filas][columnas];
         for (int fila = 0; fila < filas; fila++) {
-            for (int col = 0; columnas < columnas; columnas++) {
+            for (int col = 0; col < columnas; col++) {
                 Button casilla = new Button();
                 casilla.setPrefSize(60, 60);
-                casilla.setOnAction(e -> {
-                    // Futuro: seleccionar unidad
-                    System.out.println("Casilla [" + filas + "," + col + "] seleccionada.");
-                });
+                final int f = fila;
+                final int c = col;
+                casilla.setOnAction(e -> manejarClickCasilla(f, c));
                 casillas[fila][col] = casilla;
                 tablero.add(casilla, col, fila);
             }
         }
 
-        private void siguienteTurno() {
-            turnoActual = turnoActual.equals("CIENCIAS") ? "LETRAS" : "CIENCIAS";
-            System.out.println("Turno ahora: " + turnoActual);
-        }
-
-        private void manejarClickCasilla(int filas, int columnas) {
-            Unidad unidad = unidades[filas][columnas];
-
-            if (unidadSeleccionada == null) {
-                // Seleccionar unidad propia
-                if (unidad != null && unidad.getEquipo().equals(turnoActual)) {
-                    unidadSeleccionada = unidad;
-                    origenFila = filas;
-                    origenCol = columnas;
-                    System.out.println("Seleccionada unidad en [" + filas + "," + columnas + "]");
-                }
-            } else {
-                if (modoAtaque) {
-                    if (unidad != null && !unidad.getEquipo().equals(turnoActual)) {
-                        int distancia = Math.abs(filas - origenFila) + Math.abs(columnas - origenCol);
-                        if (distancia <= unidadSeleccionada.getAtaque()) {
-                            System.out.println("¡Ataque exitoso!");
-                            unidades[filas][columnas] = null; // Eliminar enemigo
-                            siguienteTurno();
-                        } else {
-                            System.out.println("Enemigo fuera de alcance.");
-                        }
-                    } else {
-                        System.out.println("No puedes atacar esa casilla.");
-                    }
-                    modoAtaque = false;
-                    unidadSeleccionada = null;
-                    actualizarTablero();
-                    return;
-                }
-
-                // Mover (como antes)
-                if (unidades[filas][columnas] == null) {
-                    int distancia = Math.abs(filas - origenFila) + Math.abs(columnas - origenCol);
-                    if (distancia <= unidadSeleccionada.getRangoMovimiento(){
-                        unidades[filas][columnas] = unidadSeleccionada;
-                        unidades[origenFila][origenCol] = null;
-                        System.out.println("Unidad movida a [" + filas + "," + columnas + "]");
-                        cambiarTurno();
-                    } else {
-                        System.out.println("Movimiento demasiado lejano");
-                    }
-                } else {
-                    System.out.println("Casilla ocupada");
-                }
-
-                actualizarEstadisticas(lblEquipo, lblMov, lblAtaque);
-                unidadSeleccionada = null;
-                unidadSeleccionada = null;
-                actualizarEstadisticas(lblEquipo, lblMov, lblAtaque);
-                modoAtaque = false;
-                actualizarTablero();
-            }
-        }
-
-        private void actualizarEstadisticas(Label lblEquipo, Label lblMov, Label lblAtaque) {
-            if (unidadSeleccionada != null) {
-                lblEquipo.setText("Equipo: " + unidadSeleccionada.getEquipo());
-                lblMov.setText("Movimiento: " + unidadSeleccionada.getRangoMovimiento());
-                lblAtaque.setText("Ataque: " + unidadSeleccionada.getAtaque());
-            } else {
-                lblEquipo.setText("Equipo: -");
-                lblMov.setText("Movimiento: -");
-                lblAtaque.setText("Ataque: -");
-            }
-        }
-
-        private void verificarFinDePartida() {
-            boolean quedanCiencias = false;
-            boolean quedanLetras = false;
-
-            for (int filas = 0; filas < filas; filas++) {
-                for (int columnas = 0; columnas < columnas; columnas++) {
-                    Unidad u = unidades[filas][columnas];
-                    if (u != null) {
-                        if (u.getEquipo().equals("CIENCIAS")) {
-                            quedanCiencias = true;
-                        } else if (u.getEquipo().equals("LETRAS")) {
-                            quedanLetras = true;
-                        }
-                    }
-                }
-            }
-
-            if (!quedanCiencias || !quedanLetras) {
-                String ganador = quedanCiencias ? "CIENCIAS" : "LETRAS";
-                System.out.println(" ¡El equipo " + ganador + " ha ganado!");
-
-                // Aquí puedes redirigir a la pantalla de resultados
-                PantallaManager.mostrarPantallaResultados(ganador);
-            }
-        }
-        // Posicionar unidades de ejemplo
+        // Inicializar algunas unidades
         unidades[0][0] = new Unidad("CIENCIAS", 2, 1);
         unidades[5][5] = new Unidad("LETRAS", 2, 1);
 
-        root.setCenter(tablero);
+        actualizarTablero();
 
-        // Derecha: Panel de acciones
         VBox panelLateral = new VBox(15);
         panelLateral.setPadding(new Insets(20));
         panelLateral.setAlignment(Pos.TOP_CENTER);
 
-        // Turno actual
         Label lblTurno = new Label("Turno: " + turnoActual);
-
-        // Estadísticas
         Label lblInfo = new Label("Unidad seleccionada:");
-        Label lblEquipo = new Label("Equipo: -");
-        Label lblMov = new Label("Movimiento: -");
-        Label lblAtaque = new Label("Ataque: -");
+        lblEquipo = new Label("Equipo: -");
+        lblMov = new Label("Movimiento: -");
+        lblAtaque = new Label("Ataque: -");
 
-        // Botones
         Button btnMover = new Button("Mover");
         Button btnAtacar = new Button("Atacar");
         Button btnSalir = new Button("Salir");
 
-        // Acciones
         btnMover.setOnAction(e -> {
             if (unidadSeleccionada != null) {
                 modoAtaque = false;
@@ -246,15 +219,17 @@ public class PantallaJuego {
             PantallaManager.mostrarPantallaGuardarPartida();
         });
 
-        // Agregar al panel
         panelLateral.getChildren().addAll(
                 lblTurno,
                 lblInfo, lblEquipo, lblMov, lblAtaque,
                 btnMover, btnAtacar, btnSalir
         );
 
+        root.setCenter(tablero);
         root.setRight(panelLateral);
 
         return new Scene(root, 900, 600);
+    }
+    public static void main(String[] args) {;
     }
 }

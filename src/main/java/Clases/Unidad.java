@@ -74,4 +74,7 @@ public class Unidad {
     public Object getEquipo() {
         return null;
     }
+    public int getMovimiento() {
+        return rangoMovimiento;
+    }
 }
