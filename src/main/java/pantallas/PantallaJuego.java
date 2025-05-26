@@ -19,6 +19,7 @@ import java.io.IOException;
 public class PantallaJuego {
 
     private final int filas;
+    private final int columnas;
     private Casilla[][] tableroCasillas;
     private Unidad[][] unidades;
     private String turnoActual;
@@ -43,9 +44,10 @@ public class PantallaJuego {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileWriter writer = new FileWriter(nombreArchivo + ".json")) {
             gson.toJson(partida, writer);
-            System.out.println("📁 Partida guardada como " + nombreArchivo + ".json");
+            System.out.println(
+                    " Partida guardada como " + nombreArchivo + ".json");
         } catch (IOException e) {
-            System.err.println("❌ Error al guardar partida: " + e.getMessage());
+            System.err.println(" Error al guardar partida: " + e.getMessage());
         }
     }
 
@@ -86,42 +88,42 @@ public class PantallaJuego {
 
         casillas = new Button[filas][columnas];
         for (int fila = 0; fila < filas; fila++) {
-            for (int col = 0; col < columnas; col++) {
+            for (int col = 0; columnas < columnas; columnas++) {
                 Button casilla = new Button();
                 casilla.setPrefSize(60, 60);
                 casilla.setOnAction(e -> {
                     // Futuro: seleccionar unidad
-                    System.out.println("Casilla [" + fila + "," + col + "] seleccionada.");
+                    System.out.println("Casilla [" + filas + "," + col + "] seleccionada.");
                 });
                 casillas[fila][col] = casilla;
                 tablero.add(casilla, col, fila);
             }
         }
 
-        private void cambiarTurno() {
+        private void siguienteTurno() {
             turnoActual = turnoActual.equals("CIENCIAS") ? "LETRAS" : "CIENCIAS";
             System.out.println("Turno ahora: " + turnoActual);
         }
 
-        private void manejarClickCasilla(int fila, int col) {
-            Unidad unidad = unidades[fila][col];
+        private void manejarClickCasilla(int filas, int columnas) {
+            Unidad unidad = unidades[filas][columnas];
 
             if (unidadSeleccionada == null) {
                 // Seleccionar unidad propia
                 if (unidad != null && unidad.getEquipo().equals(turnoActual)) {
                     unidadSeleccionada = unidad;
-                    origenFila = fila;
-                    origenCol = col;
-                    System.out.println("Seleccionada unidad en [" + fila + "," + col + "]");
+                    origenFila = filas;
+                    origenCol = columnas;
+                    System.out.println("Seleccionada unidad en [" + filas + "," + columnas + "]");
                 }
             } else {
                 if (modoAtaque) {
                     if (unidad != null && !unidad.getEquipo().equals(turnoActual)) {
-                        int distancia = Math.abs(fila - origenFila) + Math.abs(col - origenCol);
+                        int distancia = Math.abs(filas - origenFila) + Math.abs(columnas - origenCol);
                         if (distancia <= unidadSeleccionada.getAtaque()) {
                             System.out.println("¡Ataque exitoso!");
-                            unidades[fila][col] = null; // Eliminar enemigo
-                            cambiarTurno();
+                            unidades[filas][columnas] = null; // Eliminar enemigo
+                            siguienteTurno();
                         } else {
                             System.out.println("Enemigo fuera de alcance.");
                         }
@@ -135,12 +137,12 @@ public class PantallaJuego {
                 }
 
                 // Mover (como antes)
-                if (unidades[fila][col] == null) {
-                    int distancia = Math.abs(fila - origenFila) + Math.abs(col - origenCol);
-                    if (distancia <= unidadSeleccionada.getMovimiento()) {
-                        unidades[fila][col] = unidadSeleccionada;
+                if (unidades[filas][columnas] == null) {
+                    int distancia = Math.abs(filas - origenFila) + Math.abs(columnas - origenCol);
+                    if (distancia <= unidadSeleccionada.getRangoMovimiento(){
+                        unidades[filas][columnas] = unidadSeleccionada;
                         unidades[origenFila][origenCol] = null;
-                        System.out.println("Unidad movida a [" + fila + "," + col + "]");
+                        System.out.println("Unidad movida a [" + filas + "," + columnas + "]");
                         cambiarTurno();
                     } else {
                         System.out.println("Movimiento demasiado lejano");
@@ -161,7 +163,7 @@ public class PantallaJuego {
         private void actualizarEstadisticas(Label lblEquipo, Label lblMov, Label lblAtaque) {
             if (unidadSeleccionada != null) {
                 lblEquipo.setText("Equipo: " + unidadSeleccionada.getEquipo());
-                lblMov.setText("Movimiento: " + unidadSeleccionada.getMovimiento());
+                lblMov.setText("Movimiento: " + unidadSeleccionada.getRangoMovimiento());
                 lblAtaque.setText("Ataque: " + unidadSeleccionada.getAtaque());
             } else {
                 lblEquipo.setText("Equipo: -");
@@ -174,9 +176,9 @@ public class PantallaJuego {
             boolean quedanCiencias = false;
             boolean quedanLetras = false;
 
-            for (int fila = 0; fila < filas; fila++) {
-                for (int col = 0; col < columnas; col++) {
-                    Unidad u = unidades[fila][col];
+            for (int filas = 0; filas < filas; filas++) {
+                for (int columnas = 0; columnas < columnas; columnas++) {
+                    Unidad u = unidades[filas][columnas];
                     if (u != null) {
                         if (u.getEquipo().equals("CIENCIAS")) {
                             quedanCiencias = true;

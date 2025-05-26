@@ -40,11 +40,11 @@ public class PantallaManager {
         stage.setScene(scene);
     }
 
-    public static void mostrarPantallaMiPropioTablero() {
-        Scene scene = new PantallaMiPropioTablero().getScene();
-        stage.setTitle("Mi Propio Tablero - CONQUISTA");
-        stage.setScene(scene);
-    }
+//    public static void mostrarPantallaMiPropioTablero() {
+//        Scene scene = new PantallaMiPropioTablero().getScene();
+//        stage.setTitle("Mi Propio Tablero - CONQUISTA");
+//        stage.setScene(scene);
+//    }
 
     public static void mostrarPantallaEleccionPersonajes() {
         Scene scene = new PantallaEleccionPersonajes().getScene();
@@ -52,11 +52,11 @@ public class PantallaManager {
         stage.setScene(scene);
     }
 
-    public static void mostrarPantallaJuego() {
-        Scene scene = new PantallaJuego().getScene();
-        stage.setTitle("Partida en curso - CONQUISTA");
-        stage.setScene(scene);
-    }
+//    public static void mostrarPantallaJuego() {
+//        Scene scene = new PantallaJuego().getScene();
+//        stage.setTitle("Partida en curso - CONQUISTA");
+//        stage.setScene(scene);
+//    }
 
     public static void mostrarPantallaResultados(String equipoGanador) {
         Scene scene = new PantallaResultados(equipoGanador).getScene();
