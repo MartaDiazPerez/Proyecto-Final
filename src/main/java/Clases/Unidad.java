@@ -24,6 +24,9 @@ public class Unidad {
     public Unidad(String letras, int ataque, int defensa) {
     }
 
+    public Unidad(String ciencias, int i) {
+    }
+
     public void recibirDanio(int danio ){
         int factor = (int)(Math.random() * 3);
         danio = factor * 2 - defensa;

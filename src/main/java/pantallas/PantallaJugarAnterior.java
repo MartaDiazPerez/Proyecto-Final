@@ -17,7 +17,7 @@ public class PantallaJugarAnterior {
     private String archivoSeleccionado = null;
 
     public Scene getScene() {
-        GuardadoUtils.asegurarDirectorioPartidas(); // Crea carpeta si no existe
+        GuardadoUtils.asegurarDirectorioPartidas();
 
         VBox layout = new VBox(20);
         layout.setPadding(new Insets(20));

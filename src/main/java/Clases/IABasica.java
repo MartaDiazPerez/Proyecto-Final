@@ -11,7 +11,7 @@ public class IABasica {
         int dx = Math.abs(ia.getX() - objetivo.getX());
         int dy = Math.abs(ia.getY() - objetivo.getY());
 
-        //Despues comprueba si el enemigo esta en su rango si es asi ataca
+        //Después comprueba si el enemigo está en su rango si es asi ataca
         if (dx + dy <= ia.getRangoAtaque()) {
             int factor = (int)(Math.random() * 3); // 0,1,2
             int daño = factor * ia.getAtaque() - objetivo.getDefensa();

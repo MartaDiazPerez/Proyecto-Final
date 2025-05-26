@@ -33,7 +33,7 @@ class Partida{
     }
 
     private void generarUnidadAleatoria(Jugador jugador) {
-        // Aquí podrías usar Math.random para elegir una subclase de Unidad
+        // Aquí se puede usar Math.random para elegir una subclase de Unidad
         // y colocarla junto a otra unidad del jugador si hay espacio
         // (queda como punto de implementación específico)
     }

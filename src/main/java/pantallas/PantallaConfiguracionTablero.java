@@ -33,20 +33,19 @@ public class PantallaConfiguracionTablero {
         Button btnCrearPropio = new Button("Crear Propio");
         Button btnVolver = new Button("Volver");
 
-        // Botones aún no enlazados a pantallas reales
         btnAleatorio.setOnAction(e -> {
             System.out.println("Crear tablero aleatorio con " + tfAncho.getText() + " x " + tfAlto.getText());
-            // PantallaManager.mostrarPantallaEleccionPersonajes();
+            PantallaManager.mostrarPantallaEleccionPersonajes();
         });
 
         btnTodoIgual.setOnAction(e -> {
             System.out.println("Crear tablero TODO IGUAL con " + tfAncho.getText() + " x " + tfAlto.getText());
-            // PantallaManager.mostrarPantallaEleccionPersonajes();
+            PantallaManager.mostrarPantallaEleccionPersonajes();
         });
 
         btnCrearPropio.setOnAction(e -> {
             System.out.println("Ir a crear propio tablero con " + tfAncho.getText() + " x " + tfAlto.getText());
-            // PantallaManager.mostrarPantallaMiPropioTablero();
+            PantallaManager.mostrarPantallaMiPropioTablero();
         });
 
         btnVolver.setOnAction(e -> PantallaManager.mostrarPantallaEleccionTablero());
